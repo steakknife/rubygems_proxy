@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <title>GZRUBY Rubygems Proxy/Mirror</title>
         <style type="text/css">
-            body { background: #B9E1E7; font-size: 130%; color: #033; font-family: sans-serif; }
-            pre { background: #111; color: #fff; padding: 10px; border-radius: 5px; }
+            body { background: #B9E1E7; font-size: 110%; color: #033; font-family: sans-serif; }
+            pre { background: #111; color: #fff; padding: 10px; border-radius: 5px; font-size: 110%}
             a { color: #033; }
             h2 { margin-bottom: 0; }
             h2 + p { margin-top: 0; }
@@ -17,6 +17,7 @@
             .versions:before { content: "("; }
             .versions:after { content: ")"; }
             .gems { font-size: 80%; padding-left: 0; }
+			.about {font-size:80%; border-top: 1px solid #888;}
         </style>
 
 		<script type="text/javascript">
@@ -47,56 +48,50 @@
 :sources:
 - <%= server_url %>
 gem: --no-rdoc --no-ri</code></pre>
+<p>
+			In windows, this file can be found here: <br />
+			<code>C:\Documents and Settings\All Users\Application Data\gemrc</code> (Win XP)<br />
+			<code>C:\ProgramData\gemrc</code> (Win 7)
+</p>
 
-            <p>
-                Want to implement your own mirror? Get the
-                one-file Rack app at <a href="http://github.com/akitaonrails/rubygems_proxy">Github</a>.
-            </p>
-			
+       <h2>Cached gems</h2>
+        <p>
+            <strong><%= gem_list.size %></strong> gems cached so far!
+        </p>
+        <ul class="gems">
+            <% gems = grouped_gems; names = gems.keys.sort %>
+            <% names.each do |name| %>
+                <li>
+                    <a href="<%= rubygems_url(name) %>"><%= name %></a>
+
+                    <ul class="versions">
+                        <% gems[name].sort.each do |version| %>
+                            <li>
+                                <a href="<%= gem_url(name, version) %>"><%= version %></a>
+                            </li>
+                        <% end %>
+                    </ul>
+                </li>
+            <% end %>
+        </ul>
+
+
+<div class="about">
 			<p>
-				This rubygems mirror is maintained by <a href="http://gzruby.org/list">gzruby - the Guangzhou Ruby User's Group.</a><br />
-				Many thanks to the original author of this project, and the many contributors.<br />
-				The full source can be found at <a href="http://github.com/kudelabs/rubygems_proxy">github</a>.
+				This rubygems mirror is maintained by: <br />
+				<a href="http://gzruby.org/list">gzruby - the Guangzhou Ruby User's Group.</a><br />
+				Many thanks to the <a href="https://github.com/fnando/">original author</a> of <a href="https://github.com/fnando/rubygems_proxy">rubygems_proxy</a>, and the <a href="https://github.com/fnando/rubygems_proxy/network">many contributors</a>.<br />
+				The full source can be found at github: <a href="http://github.com/kudelabs/rubygems_proxy">gzruby rubygems_proxy</a>.
 			</p>
 			<p>
 				Sponsored by:
 				<a href="http://kudelabs.com"><img src="kudelogo120px.png" alt="Kude Labs" style="width: 80px" align='middle'/></a>
 			</p> 
+</div>
 
-
-            <h2>Cached gems</h2>
-            <p>
-                <strong><%= gem_list.size %></strong> gems cached so far!
-            </p>
-            <ul class="gems">
-                <% gems = grouped_gems; names = gems.keys.sort %>
-                <% names.each do |name| %>
-                    <li>
-                        <a href="<%= rubygems_url(name) %>"><%= name %></a>
-
-                        <ul class="versions">
-                            <% gems[name].sort.each do |version| %>
-                                <li>
-                                    <a href="<%= gem_url(name, version) %>"><%= version %></a>
-                                </li>
-                            <% end %>
-                        </ul>
-                    </li>
-                <% end %>
-            </ul>
-
-			<h1>Install Ruby and Rails on Windows</h1>
-				<p>
-					There's a one click button method to install the Ruby and Rails in Windows. You can download and install the <strong><a href="http://www.railsinstaller.org/">RailsInstaller</a></strong> to get the latest version of Ruby and Rails, and it'll also install the <strong><a href="https://github.com/">Git</a></strong> as well, then you can configure it after finish installing it if you need.
-				</p>
-			<h2><i>在Windows下安装Ruby和Rails</i></h2>
-				<p>
-					<i>
-						在Windows下面，有一键安装的方法使得你轻松安装Ruby和Rails. 你可以在<strong><a href="http://www.railsinstaller.org/">RailsInstaller</a></strong>官网上下载并安装到最新的Ruby和Rails, 同时，它会集成安装<strong><a href="https://github.com/">Git</a></strong>, 在安装完后，有导向会进行Git的用户信息配置, 如有需要可进行配置.
-					</i>
-				</p>
+     
         </div>
 
-        <a href="http://github.com/akitaonrails/rubygems_proxy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://d3nwyuy0nl342s.cloudfront.net/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
+        <a href="http://github.com/kudelabs/rubygems_proxy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://d3nwyuy0nl342s.cloudfront.net/img/30f550e0d38ceb6ef5b81500c64d970b7fb0f028/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub"></a>
     </body>
 </html>
