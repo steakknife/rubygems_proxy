@@ -9,26 +9,27 @@ Clone this repository.
 Set up Apache + Passenger or something similar.
 
   <VirtualHost *:80>
-    ServerName rubygems.org
-    DocumentRoot /home/fnando/gems.simplesideias.com.br/public
+    ServerName gem-proxy.org
+    DocumentRoot /apps/gem-proxy.org/public
 
-    <Directory /home/fnando/gems.simplesideias.com.br>
+    <Directory /apps/gem-proxy.org>
       AllowOverride all
       Options -MultiViews
     </Directory>
   </VirtualHost>
 
-Remember to chmod <tt>public/.htaccess</tt>:
+  	Add the following line to your Gemfile:
+     source "gem-proxy"
+   
+	And change your ~/.gemrc to something like this:
+        ---
+		:sources:
+		- gem-proxy.org
+		gem: --no-rdoc --no-ri
 
-  $ chmod 644 public/.htaccess
-
-Edit your /etc/hosts file and add:
-
-  127.0.0.1  rubygems.org
-
-Now you can use the normal 'gem install' command or 'bundle' and it
-will try to fetch from your local cache first and only then go to
-the online rubygems.org site (directly through its IP address).
+	Now, if you do a normal <tt>bundle install</tt> or <tt>gem install</tt> rubygems will ask gem-proxy.org first. gem-proxy.org will return the gem if it exists in the cache, or find it on rubygems.org if the gem isn't there.
+	
+	The result is a transparent mirror of the official rubygems site on a server of your choosing. This can be really helpful if, for example, the geographic distance between you and the official gem repository makes the connection slow. Or if you are in a location where parts of the internet are blocked. Set this server up in a location you can access, and provided that the server has access to the greater internet, you can access rubygems through the proxy.
 
 = Maintainer
 
