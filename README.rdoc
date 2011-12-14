@@ -18,18 +18,22 @@ Set up Apache + Passenger or something similar.
     </Directory>
   </VirtualHost>
 
-  	Add the following line to your Gemfile:
-     source "gem-proxy"
-   
-	And change your ~/.gemrc to something like this:
-        ---
-		:sources:
-		- gem-proxy.org
-		gem: --no-rdoc --no-ri
 
-	Now, if you do a normal <tt>bundle install</tt> or <tt>gem install</tt> rubygems will ask gem-proxy.org first. gem-proxy.org will return the gem if it exists in the cache, or find it on rubygems.org if the gem isn't there.
+Add the following line to your Gemfile:
+  
+  source "gem-proxy"
+
+And change your ~/.gemrc to something like this:
+
+  ---
+  :sources:
+  - gem-proxy.org 
+  gem: --no-rdoc --no-ri
+
+
+Now, if you do a normal <tt>bundle install</tt> or <tt>gem install</tt> rubygems will ask gem-proxy.org first. gem-proxy.org will return the gem if it exists in the cache, or find it on rubygems.org if the gem isn't there.
 	
-	The result is a transparent mirror of the official rubygems site on a server of your choosing. This can be really helpful if, for example, the geographic distance between you and the official gem repository makes the connection slow. Or if you are in a location where parts of the internet are blocked. Set this server up in a location you can access, and provided that the server has access to the greater internet, you can access rubygems through the proxy.
+The result is a transparent mirror of the official rubygems site on a server of your choosing. This can be really helpful if, for example, the geographic distance between you and the official gem repository makes the connection slow. Or if you are in a location where parts of the internet are blocked. Set this server up in a location you can access, and provided that the server has access to the greater internet, you can access rubygems through the proxy.
 
 = Maintainer
 
