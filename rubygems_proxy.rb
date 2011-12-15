@@ -88,7 +88,7 @@ class RubygemsProxy
     else
       logger.info "Read from interwebz: #{url}"
       # pass the Host header to correctly access the rubygems site
-      open(url).read.tap {|content| save(content)}
+      open(url).read.tap { |content| save(content) if url =~ /\.gem\Z/ }
     end
   end
 
