@@ -4,20 +4,21 @@
         <meta charset="UTF-8">
         <title>GZRUBY Rubygems Proxy/Mirror</title>
         <style type="text/css">
-            body { background: #B9E1E7; font-size: 110%; color: #033; font-family: sans-serif; }
+            body { background: #B9E1E7; font-size: 100%; color: #033; font-family: sans-serif; }
             pre { background: #111; color: #fff; padding: 10px; border-radius: 5px; font-size: 110%}
             a { color: #033; }
-            h2 { margin-bottom: 0; }
+            h2 { margin-bottom: 0.5em; }
             h2 + p { margin-top: 0; }
-            #page { width: 600px; margin: 0 auto; padding: 25px; }
+            #page { width: 740px; margin: 0 auto; padding: 25px; }
             .versions li { display: inline; }
             .versions li:after { content: ","; }
             .versions li:last-of-type:after { content: ""; }
             .versions { display: inline; margin: 0; padding: 0; opacity: .5; }
             .versions:before { content: "("; }
             .versions:after { content: ")"; }
+			.cache {float: left; width: 48% }
             .gems { font-size: 80%; padding-left: 0; }
-			.about {font-size:80%; border-top: 1px solid #888;}
+			.about { float:right; width: 50%; font-size:80%; border-top: 1px solid #888;}
         </style>
 
 		<script type="text/javascript">
@@ -38,24 +39,37 @@
     <body>
         <div id="page">
             <h1>gzruby rubygems</h1>
+			<h2>广州ruby开发者小组 - rubygems镜像</h2>
+			<p>
+				这是一个<a href="http://rubygems.org">http://rubygems.org</a> 的镜像。在中国，如果没有VPN或者proxy的话，Ruby开发者往往很难直接连接到rubygems服务器。希望这个镜像可以为大家提供一个解决的办法。
+			</p>
             <p>This is a mirror for <a href="http://rubygems.org">http://rubygems.org</a> that should be accessible for anyone in South China. It is provided as an alternative solution for ruby developers in China who may not be able to access the rubygems servers directly without a VPN or proxy.</p>
-
-            <h2>Setup your client</h2>
-            <p>Add the following line to your Gemfile:</p>
+			
+            <h2>设置 Setup your client</h2>
+            <p>
+				在你的gemfile 里面添加下列内容<br />
+				Add the following line to your Gemfile:
+			</p>
             <pre><code>source "<%= server_url %>"</code></pre>
-            <p>And change your <code>~/.gemrc</code> to something like this:</p>
+            <p>
+				然后修改你的~/.gemrc，例如<br />
+				And change your <code>~/.gemrc</code> to something like this:
+			</p>
             <pre><code>---
 :sources:
 - <%= server_url %>
 gem: --no-rdoc --no-ri</code></pre>
 <p>
+			如果你使用Windows系统， 你会在下列文件夹发现此文件：<br />
 			In windows, this file can be found here: <br />
 			<code>C:\Documents and Settings\All Users\Application Data\gemrc</code> (Win XP)<br />
 			<code>C:\ProgramData\gemrc</code> (Win 7)
 </p>
 
-       <h2>Cached gems</h2>
+	<div class="cache">
+       <h2>缓存 Cached gems</h2>
         <p>
+			目前缓存到<strong><%= gem_list.size %></strong>个gem<br />
             <strong><%= gem_list.size %></strong> gems cached so far!
         </p>
         <ul class="gems">
@@ -63,27 +77,29 @@ gem: --no-rdoc --no-ri</code></pre>
             <% names.each do |name| %>
                 <li>
                     <a href="<%= rubygems_url(name) %>"><%= name %></a>
-
+					
                     <ul class="versions">
-                        <% gems[name].sort.each do |version| %>
-                            <li>
-                                <a href="<%= gem_url(name, version) %>"><%= version %></a>
-                            </li>
-                        <% end %>
+					<% gems[name].sort.each do |version| %>
+						<li>
+							<a href="<%= gem_url(name, version) %>"><%= version %></a>
+					 	</li>
+					 <% end %>
+                        
                     </ul>
                 </li>
             <% end %>
         </ul>
-
+	</div>
 
 <div class="about">
 			<p>
 				This rubygems mirror is maintained by: <br />
-				<a href="http://gzruby.org/list">gzruby - the Guangzhou Ruby User's Group.</a><br />
-				Many thanks to the <a href="https://github.com/fnando/">original author</a> of <a href="https://github.com/fnando/rubygems_proxy">rubygems_proxy</a>, and the <a href="https://github.com/fnando/rubygems_proxy/network">many contributors</a>.<br />
-				The full source can be found at github: <a href="http://github.com/kudelabs/rubygems_proxy">gzruby rubygems_proxy</a>.
+				+ <a href="http://www.gzruby.org/">gzruby - the Guangzhou Ruby User's Group.</a><br />
+				+ Many thanks to the <a href="https://github.com/fnando/">original author</a> of <a href="https://github.com/fnando/rubygems_proxy">rubygems_proxy</a>, and the <a href="https://github.com/fnando/rubygems_proxy/network">many contributors</a>.<br />
+				+ The full source can be found at github: <a href="http://github.com/kudelabs/rubygems_proxy">gzruby rubygems_proxy</a>.
 			</p>
 			<p>
+				诚意赞助
 				Sponsored by:
 				<a href="http://kudelabs.com"><img src="kudelogo120px.png" alt="Kude Labs" style="width: 80px" align='middle'/></a>
 			</p> 
