@@ -86,9 +86,9 @@ class RubygemsProxy
       logger.info "Read from cache: #{filepath}"
       open(filepath).read
     else
-      logger.info "Read from interwebz: #{url}"
+      logger.info "Read from interwebz: #{url} <--- #{ specs? || gem_file? ? "is" : "NOT"} a gem or spec"
       # pass the Host header to correctly access the rubygems site
-      open(url).read.tap { |content| save(content) if url =~ /\.gem\Z/ }
+      open(url).read.tap { |content| save(content) if specs? || gem_file? }
     end
   end
 
@@ -100,6 +100,11 @@ class RubygemsProxy
   def specs?
     env["PATH_INFO"] =~ /specs\..+\.gz$/
   end
+  
+  def gem_file?(name)
+    env["PATH_INFO"] =~ /\.gem\Z/
+  end
+
 
   def cached?
     File.file?(filepath)
