@@ -81,6 +81,7 @@ class RubygemsProxy
 
   def contents
     if File.directory?(filepath)
+      logger.info "Is a dir, returning 404: #{filepath}"
       erb(404)
     elsif cached? && !specs?
       logger.info "Read from cache: #{filepath}"
@@ -88,7 +89,7 @@ class RubygemsProxy
     else
       logger.info "Read from interwebz: #{url} <--- #{ specs? || gem_file? ? "is" : "NOT"} a gem or spec"
       # pass the Host header to correctly access the rubygems site
-      open(url).read.tap { |content| save(content) if specs? || gem_file? }
+      open(url).read.tap { |content| save(content) if gem_file? }
     end
   end
 
