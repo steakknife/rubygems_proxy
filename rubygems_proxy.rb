@@ -103,7 +103,7 @@ class RubygemsProxy
     env["PATH_INFO"] =~ /specs\..+\.gz$/
   end
   
-  def gem_file?(name)
+  def gem_file?
     env["PATH_INFO"] =~ /\.gem\Z/
   end
 
