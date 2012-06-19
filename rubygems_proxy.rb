@@ -24,7 +24,8 @@ class RubygemsProxy
     else
       [200, {"Content-Type" => "application/octet-stream"}, [contents]]
     end
-  rescue Exception
+  rescue Exception => e
+    logger.info "Exception caught!!! -> #{e}\n#{e.backtrace.join("\n")}"
     [200, {"Content-Type" => "text/html"}, [erb(404)]]
   end
 
