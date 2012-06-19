@@ -4,7 +4,7 @@
 
 Clone this repository.
 
-  $ git clone git://github.com/fnando/rubygems_proxy.git
+  $ git clone git://github.com/kudelabs/rubygems_proxy.git
 
 Set up Apache + Passenger or something similar.
 
@@ -38,6 +38,7 @@ The result is a transparent mirror of the official rubygems site on a server of 
 = Maintainer
 
 * Nando Vieira - http://nandovieira.com.br
+* gzruby - http://www.gzruby.org
 
 == License
 
