@@ -101,7 +101,7 @@ class RubygemsProxy
   end
 
   def specs?
-    env["PATH_INFO"] =~ /specs\..+\.gz$/
+    env["PATH_INFO"] =~ /specs\..+\(.gz|.rz)$/
   end
   
   def spec_cached?
