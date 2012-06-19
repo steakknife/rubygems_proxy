@@ -12,6 +12,7 @@ class RubygemsProxy
 
   def initialize(env)
     @env = env
+    @spec_cached = {}
     logger.level = Logger::INFO
   end
 
