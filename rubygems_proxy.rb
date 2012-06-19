@@ -84,12 +84,13 @@ class RubygemsProxy
     if File.directory?(filepath)
       logger.info "Is a dir, returning 404: #{filepath}"
       erb(404)
-    elsif cached? && !specs?
+    elsif cached? && (!specs? || spec_cached?)
       logger.info "Read from cache: #{filepath}"
       open(filepath).read
     else
       logger.info "Read from interwebz: #{url} <--- #{ specs? || gem_file? ? "is" : "NOT"} a gem or spec"
       # pass the Host header to correctly access the rubygems site
+      @spec_cached[env["PATH_INFO"]] = Time.now
       open(url).read.tap { |content| save(content) if gem_file? }
     end
   end
@@ -101,6 +102,10 @@ class RubygemsProxy
 
   def specs?
     env["PATH_INFO"] =~ /specs\..+\.gz$/
+  end
+  
+  def spec_cached?
+    Time.now - @spec_cached[env["PATH_INFO"]] < 100 * 60
   end
   
   def gem_file?
