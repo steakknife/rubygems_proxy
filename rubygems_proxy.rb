@@ -118,7 +118,7 @@ class RubygemsProxy
 
   def filepath
     if specs?
-      File.join(root_dir, env["PATH_INFO"])
+      File.join(cache_dir, "specs", env["PATH_INFO"])
     else
       File.join(cache_dir, env["PATH_INFO"])
     end
