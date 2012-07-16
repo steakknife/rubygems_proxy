@@ -79,7 +79,8 @@ class RubygemsProxy
   def cache_dir
     "#{root_dir}/public"
   end
-
+  
+  SPEC_CACHE_EXPIRY = 60  # seconds after originally fetching the specs
   def contents
     if File.directory?(filepath)
       logger.info "Is a dir, returning 404: #{filepath}"
@@ -87,10 +88,13 @@ class RubygemsProxy
     elsif cached? && !specs?
       logger.info "Read from cache: #{filepath}"
       open(filepath).read
+    elsif cached? && specs? && (Time.now - File.ctime(filepath) < SPEC_CACHE_EXPIRY)
+      # if fetched within 15 minutes - produce cached version; otherwise fetch again and overwrite
+      open(filepath).read
     else
       logger.info "Read from interwebz: #{url} <--- #{ specs? || gem_file? ? "is" : "NOT"} a gem or spec"
       # pass the Host header to correctly access the rubygems site
-      open(url).read.tap { |content| save(content) if gem_file? }
+      open(url).read.tap { |content| save(content) if gem_file? || specs? }
     end
   end
 
