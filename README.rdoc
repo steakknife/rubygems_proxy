@@ -1,5 +1,9 @@
 = Rubygems Proxy
 
+== To run on localhost
+
+Just cd to the directory and use the command `rackup`
+
 == Setting up
 
 Clone this repository.
