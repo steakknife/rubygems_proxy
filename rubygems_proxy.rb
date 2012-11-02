@@ -80,7 +80,7 @@ class RubygemsProxy
     "#{root_dir}/public"
   end
   
-  SPEC_CACHE_EXPIRY = 900  # seconds after originally fetching the specs
+  SPEC_CACHE_EXPIRY = 86400  # seconds after originally fetching the specs
   def contents
     if File.directory?(filepath)
       logger.info "Is a dir, returning 404: #{filepath}"

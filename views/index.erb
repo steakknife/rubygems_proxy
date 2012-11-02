@@ -1,128 +1,86 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>gzruby rubygems 镜像</title>
-        <style type="text/css">
-            body { background: #B9E1E7; font-size: 100%; color: #033; font-family: sans-serif; }
-            pre { background: #111; color: #fff; padding: 10px; border-radius: 5px; font-size: 110%}
-            a { color: #033; }
-            h2 { margin-bottom: 0.5em; }
-            h2 + p { margin-top: 0; }
-            #page { width: 740px; margin: 0 auto; padding: 25px; }
-            .versions li { display: inline; }
-            .versions li:after { content: ","; }
-            .versions li:last-of-type:after { content: ""; }
-            .versions { display: inline; margin: 0; padding: 0; opacity: .5; }
-            .versions:before { content: "("; }
-            .versions:after { content: ")"; }
+  <head>
+    <meta charset="UTF-8">
+    <title>Rubygems Proxy</title>
+    <style type="text/css">
+      body { background: #B9E1E7; font-size: 100%; color: #033; font-family: sans-serif; }
+      pre { background: #111; color: #fff; padding: 10px; border-radius: 5px; font-size: 110%}
+      a { color: #033; }
+      h2 { margin-bottom: 0.5em; }
+      h2 + p { margin-top: 0; }
+      #page { width: 740px; margin: 0 auto; padding: 25px; }
+      .versions li { display: inline; }
+      .versions li:after { content: ","; }
+      .versions li:last-of-type:after { content: ""; }
+      .versions { display: inline; margin: 0; padding: 0; opacity: .5; }
+      .versions:before { content: "("; }
+      .versions:after { content: ")"; }
 			.cache {float: left; width: 48% }
-            .gems { font-size: 80%; padding-left: 0; }
-			.about { float:right; width: 50%; font-size:80%; border-top: 1px solid #888;}
-        </style>
-
-		<script type="text/javascript">
-
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-3116818-7']);
-		  _gaq.push(['_trackPageview']);
-
-		  (function() {
-		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
-
-		</script>
-    </head>
-
-    <body>
-        <div id="page">
-            <h1>gzruby rubygems 镜像</h1>
-			<h2>The Guangzhou Ruby Group's Rubygems Mirror</h2>
-			<p>
-				这是一个<a href="http://rubygems.org">http://rubygems.org</a> 的镜像。在中国，如果没有VPN或者proxy的话，
-				Ruby开发者往往很难直接连接到rubygems服务器。希望这个镜像可以为大家提供一个解决的办法。<strong>这个镜像会缓存gemspec15分钟。</strong>
+      .gems { font-size: 80%; padding-left: 0; }
+      .about { float:right; width: 50%; font-size:80%; border-top: 1px solid #888;}
+    </style>
+  </head>
+  <body>
+    <div id="page">
+      <h1>Rubygems Proxy</h1>
+      <p>
+				This is a proxy/mirror for <a href="http://rubygems.org">http://rubygems.org</a>. It is provided as an alternative solution for ruby developers in case rubygems.org is not accessible, down or you always want to have your often used gems locally stored to reduce traffic or cache older versions. <strong>This proxy/mirror will cache the gemspecs for 1 day by default.</strong>
 			</p>
-            <p>
-				This is a mirror for <a href="http://rubygems.org">http://rubygems.org</a> that should be accessible for anyone in 
-				South China. It is provided as an alternative solution for ruby developers in China who may not be able to access 
-				the rubygems servers directly without a VPN or proxy. <strong>This mirror will cache the gemspecs for 15 minutes.</strong>
-			</p>
-			
-            <h2>设置 Setup your client</h2>
-            <p>
-				在你的gemfile 里面添加下列内容<br />
+      <h2>Setup as a transparent proxy/mirror without modifying the clients (recommended)</h2>
+      <p>
+        On your local DNS Server, Firewall, Bind or even /etc/hosts file, add
+      </p>
+        <pre><code><%= server_ip %> rubygems.org</code></pre>
+      <p>
+        that your clients will now ask the proxy/mirror for gems instead of the "real" rubygems.org site. The proxy
+        will transparently get the gems, when they are not in the cache through the IP of rubygems.org.
+      </p>
+			<h2>Setup your client by modifying gem sources</h2>
+      <p>
 				Add the following line to your Gemfile:
 			</p>
-            <pre><code>source "<%= server_url %>"</code></pre>
-            <p>
-				然后修改你的~/.gemrc，例如<br />
+        <pre><code>source "<%= server_url %>"</code></pre>
+      <p>
 				And change your <code>~/.gemrc</code> to something like this:
 			</p>
-            <pre><code>---
-:sources:
-- <%= server_url %>
-gem: --no-rdoc --no-ri</code></pre>
-<p>
-			如果你使用Windows系统， 你会在下列文件夹发现此文件：<br />
-			In windows, this file can be found here: <br />
-			<code>C:\Documents and Settings\All Users\Application Data\gemrc</code> (Win XP)<br />
-			<code>C:\ProgramData\gemrc</code> (Win 7)
-</p>
-
-	<div class="cache">
-       <h2>缓存 Cached gems</h2>
+        <pre><code>---
+                  :sources:
+                  - <%= server_url %>
+                  gem: --no-rdoc --no-ri</code></pre>
+      <p>
+			 In windows, this file can be found here: <br />
+			 <code>C:\Documents and Settings\All Users\Application Data\gemrc</code> (Win XP)<br />
+			 <code>C:\ProgramData\gemrc</code> (Win 7)
+      </p>
+      <div class="cache">
+        <h2>Cached gems</h2>
         <p>
-			目前缓存到<strong><%= gem_list.size %></strong>个gem<br />
-            <strong><%= gem_list.size %></strong> gems cached so far!
+          <strong><%= gem_list.size %></strong> gems cached so far!
         </p>
         <ul class="gems">
-            <% gems = grouped_gems; names = gems.keys.sort %>
-            <% names.each do |name| %>
-                <li>
-                    <a href="<%= rubygems_url(name) %>"><%= name %></a>
-					
-                    <ul class="versions">
-					<% gems[name].sort.each do |version| %>
-						<li>
-							<a href="<%= gem_url(name, version) %>"><%= version %></a>
-					 	</li>
-					 <% end %>
-                        
-                    </ul>
+          <% gems = grouped_gems; names = gems.keys.sort %>
+          <% names.each do |name| %>
+            <li>
+              <a href="<%= rubygems_url(name) %>"><%= name %></a>
+              <ul class="versions">
+                <% gems[name].sort.each do |version| %>
+					      <li>
+                  <a href="<%= gem_url(name, version) %>"><%= version %></a>
                 </li>
-            <% end %>
+                <% end %>  
+              </ul>
+            </li>
+          <% end %>
         </ul>
-	</div>
-
-<div class="about">
-			<p>
-				This rubygems mirror is maintained by: <br />
-				+ <a href="http://www.gzruby.org/">gzruby - the Guangzhou Ruby User's Group.</a><br />
-				+ Many thanks to the <a href="https://github.com/fnando/">original author</a> of <a href="https://github.com/fnando/rubygems_proxy">rubygems_proxy</a>, and the <a href="https://github.com/fnando/rubygems_proxy/network">many contributors</a>.<br />
-				+ The full source can be found at github: <a href="http://github.com/kudelabs/rubygems_proxy">gzruby rubygems_proxy</a>.
-			</p>
-			<p style="font-size: 0.9em; line-height: 2em;">
-				<a href="http://kudelabs.com">诚意赞助
-				Sponsored by 
-				Kudelabs:</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="http://kudelabs.com"><img src="kudelogo120px.png" alt="Kude Labs" style="width: 80px;vertical-align:middle" /></a>
-				
-			</p>
-			
-			<p style="font-size: 0.9em; line-height: 2em;">
-				<a href="http://nexwavesol.com">云台服务
-				Hosted by 
-				NexWave Solutions:</a> &nbsp;
-				<a href="http://nexwavesol.com"><img src="nexwave.png" alt="NexWave Solutions" style="width: 120px;vertical-align:middle" /></a>
-				
-			</p> 
-</div>
-
-     
-        </div>
-
-        <a href="http://github.com/kudelabs/rubygems_proxy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
-    </body>
+      </div>
+      <div class="about">
+        <p>
+				  + Many thanks to the <a href="https://github.com/fnando/">original author</a> of <a href="https://github.com/fnando/rubygems_proxy">rubygems_proxy</a>, and the <a href="https://github.com/fnando/rubygems_proxy/network">many contributors</a>.<br />
+				  + The full source can be found at github: <a href="http://github.com/martinseenr/rubygems_proxy">Martin Seener rubygems_proxy</a>.
+        </p> 
+      </div>     
+    </div>
+    <a href="http://github.com/martinseener/rubygems_proxy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+  </body>
 </html>

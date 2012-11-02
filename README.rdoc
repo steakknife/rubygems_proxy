@@ -8,20 +8,60 @@ Just cd to the directory and use the command `rackup`
 
 Clone this repository.
 
-  $ git clone git://github.com/kudelabs/rubygems_proxy.git
+  $ git clone git://github.com/martinseener/rubygems_proxy.git
 
 Set up Apache + Passenger or something similar.
 
   <VirtualHost *:80>
-    ServerName gem-proxy.org
-    DocumentRoot /apps/gem-proxy.org/public
+    ServerName rubygems.org
+    DocumentRoot /var/www/rubygems_proxy/public
 
-    <Directory /apps/gem-proxy.org>
+    <Directory /var/www/rubygems_proxy>
       AllowOverride all
       Options -MultiViews
     </Directory>
   </VirtualHost>
 
+If you want to run everything encrypted you can use SSL-Enabled Variant and changing the gem sources (Only DNS is not enough
+for this solution since default gem sources is "http://rubygems..."!)
+
+  <VirtualHost *:443>
+    ServerName rubygems.org
+    DocumentRoot /var/www/rubygems_proxy/public
+
+    SSLEngine On
+    SSLCertificateFile /etc/apache2/ssl/server.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/server.key
+
+    <Directory /var/www/rubygems_proxy>
+      AllowOverride all
+      Options -MultiViews
+    </Directory>
+  </VirtualHost>
+
+Update gem sources accordingly
+
+  gem sources -r "http://rubygems.org"
+  gem sources -a "https://rubygems.org"
+  gem update (--system)
+
+=== Setup using global DNS (recommended)
+
+In your local DNS (Firewall, Bind, Router) or in /etc/hosts add a Static Entry like
+
+  <IP_of_the_Proxy> rubygems.org
+
+...for example
+
+  10.10.10.5 rubygems.org
+
+Now every call goes to the proxy automatically - without modifying your local gem sources
+like described below.
+
+This method is recommended because it handles the default setting which uses "http://rubygems.org"
+as the Gem-Server. It fits seamlessly in your environment, even if you had no proxy before!
+
+=== Setup using modification of the gem sources
 
 Add the following line to your Gemfile:
   
@@ -34,15 +74,20 @@ And change your ~/.gemrc to something like this:
   - gem-proxy.org 
   gem: --no-rdoc --no-ri
 
-
-Now, if you do a normal <tt>bundle install</tt> or <tt>gem install</tt> rubygems will ask gem-proxy.org first. gem-proxy.org will return the gem if it exists in the cache, or find it on rubygems.org if the gem isn't there.
+Now, if you do a normal <tt>bundle install</tt> or <tt>gem install</tt> rubygems will ask rubygems.org-proxy first. rubygems.org-proxy will return the gem if it exists in the cache, or find it on rubygems.org if the gem isn't there.
 	
-The result is a transparent mirror of the official rubygems site on a server of your choosing. This can be really helpful if, for example, the geographic distance between you and the official gem repository makes the connection slow. Or if you are in a location where parts of the internet are blocked. Set this server up in a location you can access, and provided that the server has access to the greater internet, you can access rubygems through the proxy.
+The result is a transparent mirror of the official rubygems site on a server of your choosing. This can be really helpful if, for example, the geographic distance between you and the official gem repository makes the connection slow. Or if you are in a location where parts of the internet are blocked or rubygems.org is just offline. Set this server up in a location you can access, and provided that the server has access to the greater internet, you can access rubygems through the proxy.
 
-= Maintainer
+= Maintainer & Special Thanks
 
-* Nando Vieira - http://nandovieira.com.br
-* gzruby - http://www.gzruby.org
+* Martin Seener - http://martin.seener.de
+
+Special Thanks goes out to fnando on github for the inital rubygems_proxy version and then Guangzhou Ruby User Group for the enhancements afterwards.
+
+= Known Issues
+
+- When the Proxy has no Connection to the Internet or production.cf.rubygems.org, the install will most likely fail due to the missing (latest_)specs.4.8.gz file which is not cached when its reachable. Local caching/updating when its available and storing when internet or website is down will be implemented soon.
+  - Manual Workaround: Download them manually and store them both in the public/ folder
 
 == License
 
