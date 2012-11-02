@@ -35,11 +35,11 @@ class RubygemsProxy
   end
 
   def server_ip
-    env["SERVER_NAME"]
+    env["SERVER_ADDR"]
   end
 
   def server_url
-    env["rack.url_scheme"] + "://" + File.join(env["SERVER_NAME"], env["PATH_INFO"])
+    env["rack.url_scheme"] + "://" + File.join(env["SERVER_ADDR"], env["PATH_INFO"])
   end
 
   def rubygems_url(gemname)
