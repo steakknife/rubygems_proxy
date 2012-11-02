@@ -34,6 +34,10 @@ class RubygemsProxy
     ERB.new(template(view)).result(binding)
   end
 
+  def server_ip
+    env["SERVER_NAME"]
+  end
+
   def server_url
     env["rack.url_scheme"] + "://" + File.join(env["SERVER_NAME"], env["PATH_INFO"])
   end
