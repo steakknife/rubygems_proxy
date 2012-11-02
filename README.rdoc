@@ -10,6 +10,11 @@ Clone this repository.
 
   $ git clone git://github.com/martinseener/rubygems_proxy.git
 
+Afterwards set the permissions correctly
+
+  chmod -R 777 /var/www/rubygems_proxy/
+  chmod 644 /var/www/rubygems_proxy/public/.htaccess
+
 Set up Apache + Passenger or something similar.
 
   <VirtualHost *:80>
