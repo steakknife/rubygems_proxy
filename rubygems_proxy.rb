@@ -43,7 +43,7 @@ class RubygemsProxy
   end
 
   def rubygems_url(gemname)
-    "http://rubygems.org/gems/%s" % Rack::Utils.escape(gemname)
+    "https://rubygems.org/gems/%s" % Rack::Utils.escape(gemname)
   end
 
   def gem_url(name, version)
@@ -130,7 +130,7 @@ class RubygemsProxy
 
   def url
     # connect directly to the IP address
-    File.join("http://production.cf.rubygems.org", env["PATH_INFO"])
+    File.join("https://production.cf.rubygems.org", env["PATH_INFO"])
   end
 end
 
